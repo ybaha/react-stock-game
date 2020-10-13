@@ -1,0 +1,4 @@
+{   
+  "ignore": ["stocks/*.js", "README"] ,
+  "ignore": ["info.js", "README"]
+}
