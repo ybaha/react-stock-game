@@ -28,7 +28,7 @@ export default function Stock() {
       let stockChartXValuesFunction = [];
       let stockChartYValuesFunction = [];
   
-      fetch(API_Call)
+      fetch(`http://127.0.0.1:5000/${StockSymbol}`)
         .then(
           function (response) {
             return response.json();
