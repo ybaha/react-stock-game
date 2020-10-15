@@ -1,4 +1,3 @@
 {   
-  "ignore": ["stocks/*.js", "README"] ,
-  "ignore": ["info.js", "README"]
+  "ignore": ["stocks/*.json", "info/*.json"] 
 }
