@@ -19,15 +19,15 @@ app.use(cors())
 
 const setRoutes = () => {
   let slug = JSON.parse(fs.readFileSync('./info/info.json', 'utf8'))
-  console.log(slug);
   for (let i = 0; i < slug.length; i++) {
     app.get(`/${slug[i]}`, (req, res, next) => {
       console.log("selam buradasin =>" + slug[i])
       res.json(require(__dirname + `/stocks/${slug[i]}.json`))
-      // fs.writeFileSync(path.resolve(__dirname + '/stocks/iki.json'), JSON.stringify(student))
 
     })
   }
+
+  refreshStockData()
 }
 
 
@@ -50,6 +50,7 @@ const fetchStockData = (slug) => {
 
 const refreshStockData = () => {
   let stocks = JSON.parse(fs.readFileSync('./info/info.json', 'utf8'))
+  stocks.reverse()
   stocks.forEach((stock, index) => {
     setTimeout(() => {
       console.log(`${stock} updated`)
@@ -62,7 +63,8 @@ const refreshStockData = () => {
 
 
 
-const getAllStockNames = (folder, stcks) => {
+const getAllStockNames = (folder) => {
+  let stcks = []
   fs.readdirSync(folder).forEach(file => {
     let fileName
     fileName = file.slice(0, -5)
@@ -70,13 +72,10 @@ const getAllStockNames = (folder, stcks) => {
     //console.log(fileName)
   })
 
-  fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(stcks))
+  //fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(stcks))
+  return stcks
 }
 
-
-// let allStocks = []
-
-// allStocks = getAllStockNames(direc, allStocks)
 
 
 
@@ -84,36 +83,38 @@ const getAllStockNames = (folder, stcks) => {
 const appendNewStocks = (array) => {
 
   let currentStocks = []
-  getAllStockNames("./stocks", currentStocks)
+  currentStocks = getAllStockNames("./stocks")
+  console.log(currentStocks);
 
   array.forEach((e) => {
     if (!currentStocks.includes(e)) {
-      fs.appendFile(`stocks/${e}.json`, "", (err) => {
-        if (err) console.log(err)
-        else {
-          console.log(`${e} appended to stocks`)
-        }
-      })
+      fs.appendFileSync(`stocks/${e}.json`, "")
+      console.log(`${e} appended to stocks`)
     }
   })
 
+  let lastStocks = getAllStockNames("./stocks")
+  fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(lastStocks))
+
+  setRoutes()
+
 }
 
-let appendArray = ["KO", "AMZN", "BABA", "FORD"]
 
-appendNewStocks(appendArray) 
 
-setRoutes() 
+let appendArray = []
 
-refreshStockData() 
+appendNewStocks(appendArray)
+
+
 
 
 
 app.get("/", (req, res, next) => {
-    res.json(getAllStockNames('stocks'));
-  })
+  res.json(getAllStockNames('stocks'));
+})
 
 
 app.listen(PORT, () => {
-    console.log(`Server running on: ${PORT}`);
-  })
+  console.log(`Server running on: ${PORT}`);
+})

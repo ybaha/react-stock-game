@@ -1,1 +1,0 @@
-["AAPL","ADBE","AMZN","FB","KO","MCD","NFLX","NKE","NVDA","PEP","TSLA"]
