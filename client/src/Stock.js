@@ -1,32 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Plot from 'react-plotly.js'
+import StockSymbolContext from './StockSymbolContext'
+
 
 export default function Stock() {
   const [xData, setxData] = useState([])
   const [yData, setyData] = useState([])
-  const [StockSymbol, setStockSymbol] = useState('FB')
+  const { stockSymbol } = useContext(StockSymbolContext);
 
-  const TextInput = () => {
-    const inputRef = useRef(null)
-
-    const onInputChange = (e) => {
-      e.preventDefault()
-      setStockSymbol(inputRef.current.value)
-    }
-
-    return(
-      <input ref={inputRef} value={StockSymbol} onChange={onInputChange} autoFocus={true}></input>
-    )
-  }
 
   useEffect(() => {
     const fetchStock = () => {
-      // const API_KEY = 'HGJWFG4N8AQ66ICD';
-      // let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${StockSymbol}&outputsize=compact&apikey=${API_KEY}`;
-      let stockChartXValuesFunction = [];
-      let stockChartYValuesFunction = [];
+      let stockChartXValues = [];
+      let stockChartYValues = [];
   
-      fetch(`http://127.0.0.1:5000/${StockSymbol}`)
+      fetch(`http://127.0.0.1:5000/${stockSymbol}`)
         .then(
           function (response) {
             return response.json();
@@ -36,22 +24,21 @@ export default function Stock() {
           function (data) {
               
             for (var key in data['Time Series (Daily)']) {
-              stockChartXValuesFunction.push(key);
-              stockChartYValuesFunction.push(data['Time Series (Daily)'][key]['1. open']);
+              stockChartXValues.push(key);
+              stockChartYValues.push(data['Time Series (Daily)'][key]['1. open']);
             }
-            setxData(stockChartXValuesFunction)
-            setyData(stockChartYValuesFunction)
+            setxData(stockChartXValues)
+            setyData(stockChartYValues)
           }
         )
     }
     fetchStock()
-  }, [StockSymbol])
+  }, [stockSymbol])
 
 
   return (
     <div>
-      <TextInput></TextInput>
-      <h1>{StockSymbol + " "}Stock Market</h1>
+      <h1>{stockSymbol + " "}Stock Market</h1>
       <Plot
         data={[
           {

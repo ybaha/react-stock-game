@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import StockSymbolContext from './StockSymbolContext'
+
 
 export default function Leftbar() {
   const [stockNames, setStockNames] = useState([])
+  const { setStockSymbol } = useContext(StockSymbolContext);
+
 
   const ListItems = (props) => {
     return (
-      <div className="stockItems">{props.value}</div>
+      <div className="stockItems" onClick={props.onClick}>{props.value}</div>
     )
   }
 
@@ -30,10 +34,11 @@ export default function Leftbar() {
   }, [])
 
 
+
   const displayListItems = () => {
     let finalStockNames = []
-    finalStockNames = stockNames.map((e) => {
-      return <ListItems value={e} />
+    finalStockNames = stockNames.map((e, i) => {
+      return <ListItems key={i} value={e} onClick={() => {setStockSymbol(e)}} />
     })
     return finalStockNames
   }
