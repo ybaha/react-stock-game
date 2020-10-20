@@ -9,7 +9,7 @@ export default function Leftbar() {
 
   const ListItems = (props) => {
     return (
-      <div className="stockItems" onClick={props.onClick}>{props.value}</div>
+      <div className="listItem" onClick={props.onClick}>{props.value}</div>
     )
   }
 
