@@ -38,7 +38,8 @@ export default function Signup() {
     db.ref('users/' + userId).set({
       username: userId,
       email: email,
-      balance: 1000
+      balance: 1000,
+      ownedStocks: {}
     })
   }
 

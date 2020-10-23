@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Plot from 'react-plotly.js'
-import StockSymbolContext from './contexts/StockSymbolContext'
+import { Link } from 'react-router-dom'
+import StockSymbolContext from '../contexts/StockSymbolContext'
 
 
-export default function Stock() {
+export default function Chart() {
   const [xData, setxData] = useState([])
   const [yData, setyData] = useState([])
   const { stockSymbol } = useContext(StockSymbolContext);
@@ -49,8 +50,11 @@ export default function Stock() {
             marker: { color: 'blue' },
           }
         ]}
-        layout={{ width: 720, height: 440, title: 'A Fancy Plot' }}
+        layout={{ width: 720, height: 440 }} //title: ...
       />
+
+      <p><Link to="/buy">Buy</Link></p>
+      {}
     </div>
   )
 }
