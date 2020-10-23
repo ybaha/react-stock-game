@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Plot from 'react-plotly.js'
-import StockSymbolContext from './StockSymbolContext'
+import StockSymbolContext from './contexts/StockSymbolContext'
 
 
 export default function Stock() {

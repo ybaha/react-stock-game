@@ -18,11 +18,10 @@ export default function ForgotPassword() {
       setLoading(true)
       await resetPassword(emailRef.current.value)
       setMessage("Check your inbox for further instructions")
+      setLoading(false)
     } catch {
       setError("Failed to reset password")
     }
-
-    setLoading(false)
   }
 
   return (

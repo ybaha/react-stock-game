@@ -30,13 +30,13 @@ export default function UpdateProfile() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        setLoading(false)
       })
       .catch(() => {
         setError("Failed to update account")
       })
       .finally(() => {
-        setLoading(false)
+        history.push("/")
       })
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StockSymbolContext from './StockSymbolContext'
+import StockSymbolContext from './contexts/StockSymbolContext'
 import Stock from './Stock';
 import Leftbar from './Leftbar'
 import Rightbar from './Rightbar'

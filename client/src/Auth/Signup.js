@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import { db } from "../firebase"
 
 export default function Signup() {
   const emailRef = useRef()
@@ -13,7 +14,7 @@ export default function Signup() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-
+    
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match")
     }
@@ -22,17 +23,27 @@ export default function Signup() {
       setError("")
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
+      writeUserData(emailRef.current.value)
+      setLoading(false)
       history.push("/")
+
     } catch {
       setError("Failed to create an account")
     }
+  }
 
-    setLoading(false)
+  function writeUserData(email) {
+    let userIdIndex = email.indexOf("@")
+    let userId = email.substr(0,userIdIndex)
+    db.ref('users/' + userId).set({
+      username: userId,
+      email: email,
+      balance: 1000
+    })
   }
 
   return (
     <>
-
       <h2 >Sign Up</h2>
       {error && <div>{error}</div>}
       <form onSubmit={handleSubmit}>
@@ -50,7 +61,7 @@ export default function Signup() {
         </div>
         <button disabled={loading} type="submit">
           Sign Up
-            </button>
+        </button>
       </form>
 
       <div>

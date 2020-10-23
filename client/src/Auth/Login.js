@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-// import './Auth.css'
 
 export default function Login() {
   const emailRef = useRef()
@@ -18,12 +17,12 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
+      setLoading(false)
       history.push("/")
     } catch {
       setError("Failed to log in")
     }
 
-    setLoading(false)
   }
 
   return (
