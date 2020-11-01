@@ -9,7 +9,7 @@ export default function Rightbar() {
   const { currentUser, logout } = useAuth()
   const currentUserMailRef = useRef(currentUser.email)
   const history = useHistory()
-  const [balance, setBalance] = useState()
+  const [balance, setBalance] = useState(null)
   const [userId, setUserId] = useState("")
 
   async function handleLogout() {

@@ -17,10 +17,11 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      setLoading(false)
       history.push("/")
     } catch {
       setError("Failed to log in")
+      setLoading(false)
+
     }
 
   }

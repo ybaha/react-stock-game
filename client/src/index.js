@@ -1,12 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Auth from './Auth/Auth';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import Router from './Auth/Router'
+import { AuthProvider } from "./contexts/AuthContext"
+import * as serviceWorker from './serviceWorker'
 
-ReactDOM.render(<Auth />, document.getElementById('root'));
+ReactDOM.render(
+  <AuthProvider>
+    <Router />
+  </AuthProvider>
+  ,
+  document.getElementById('root')
+)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+
 serviceWorker.unregister();

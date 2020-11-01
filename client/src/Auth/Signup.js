@@ -23,16 +23,15 @@ export default function Signup() {
       setError("")
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
-      writeUserData(emailRef.current.value)
-      setLoading(false)
       history.push("/")
 
     } catch {
       setError("Failed to create an account")
+      setLoading(false)
     }
   }
 
-  function writeUserData(email) {
+  async function writeUserData(email) {
     let userIdIndex = email.indexOf("@")
     let userId = email.substr(0,userIdIndex)
     db.ref('users/' + userId).set({
@@ -41,6 +40,7 @@ export default function Signup() {
       balance: 1000,
       ownedStocks: {}
     })
+    console.log("balance yazidli");
   }
 
   return (
