@@ -94,7 +94,8 @@ const appendNewStocks = (array) => {
   })
 
   let lastStocks = getAllStockNames("./stocks")
-  fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(lastStocks))
+
+  if(lastStocks.length > 0) fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(lastStocks));
 
   setRoutes()
 
