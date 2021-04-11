@@ -15,7 +15,7 @@ export default function Leftbar() {
   }
 
   const fetchStockNames = async () => {
-    fetch(`http://127.0.0.1:5000`)
+    fetch(`https://stock-game-server.herokuapp.com/`)
       .then(
         (response) => {
           return response.json();
@@ -30,7 +30,7 @@ export default function Leftbar() {
 
   const fetchStock = async () => {
     if (stockSymbol) {
-      let res = await fetch(`http://127.0.0.1:5000/${stockSymbol}`)
+      let res = await fetch(`https://stock-game-server.herokuapp.com/${stockSymbol}`)
       let data = await res.json()
       let keys = Object.keys(data['Time Series (Daily)']);
       let last = keys[0];
@@ -40,7 +40,7 @@ export default function Leftbar() {
   }
 
   const fetchAllStockPrices = async () => {
-    let rawPrices = await fetch('http://127.0.0.1:5000/prices')
+    let rawPrices = await fetch('https://stock-game-server.herokuapp.com/prices')
     let prices = await rawPrices.json()
     setAllStockPrices(prices)
   }

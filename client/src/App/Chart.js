@@ -3,7 +3,6 @@ import Plot from 'react-plotly.js'
 import { Link } from 'react-router-dom'
 import { StockSymbolContext, AllStockPricesContext } from '../contexts/StockSymbolContext'
 
-
 export default function Chart() {
   const [xData, setxData] = useState([])
   const [yData, setyData] = useState([])
@@ -16,7 +15,7 @@ export default function Chart() {
       let stockChartXValues = [];
       let stockChartYValues = [];
 
-      fetch(`http://127.0.0.1:5000/${stockSymbol}`)
+      fetch(`https://stock-game-server.herokuapp.com/${stockSymbol}`)
         .then(
           function (response) {
             return response.json();
