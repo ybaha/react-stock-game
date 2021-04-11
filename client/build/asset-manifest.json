@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-stock-game/static/css/main.962e70b8.chunk.css",
+    "main.js": "/react-stock-game/static/js/main.d1841701.chunk.js",
+    "main.js.map": "/react-stock-game/static/js/main.d1841701.chunk.js.map",
+    "runtime~main.js": "/react-stock-game/static/js/runtime~main.d6898772.js",
+    "runtime~main.js.map": "/react-stock-game/static/js/runtime~main.d6898772.js.map",
+    "static/js/2.6b82a255.chunk.js": "/react-stock-game/static/js/2.6b82a255.chunk.js",
+    "static/js/2.6b82a255.chunk.js.map": "/react-stock-game/static/js/2.6b82a255.chunk.js.map",
+    "index.html": "/react-stock-game/index.html",
+    "precache-manifest.08b5bb56c3be55573a04be5d4bf3ae45.js": "/react-stock-game/precache-manifest.08b5bb56c3be55573a04be5d4bf3ae45.js",
+    "service-worker.js": "/react-stock-game/service-worker.js",
+    "static/css/main.962e70b8.chunk.css.map": "/react-stock-game/static/css/main.962e70b8.chunk.css.map"
+  }
+}
