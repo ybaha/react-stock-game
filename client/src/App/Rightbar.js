@@ -17,7 +17,7 @@ export default function Rightbar() {
 
     try {
       await logout()
-      history.push("/login")
+      history.push("/react-stock-game/login")
     } catch {
       setError("Failed to log out")
     }

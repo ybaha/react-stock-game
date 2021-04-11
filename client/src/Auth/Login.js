@@ -17,7 +17,7 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push("/react-stock-game/")
     } catch {
       setError("Failed to log in")
       setLoading(false)
@@ -47,7 +47,7 @@ export default function Login() {
         </form>
 
         <div>
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account? <Link to="/react-stock-game/signup">Sign Up</Link>
         </div>
       </div>
     </div>

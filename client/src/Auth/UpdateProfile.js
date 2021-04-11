@@ -36,7 +36,7 @@ export default function UpdateProfile() {
         setError("Failed to update account")
       })
       .finally(() => {
-        history.push("/")
+        history.push("/react-stock-game/")
       })
   }
 

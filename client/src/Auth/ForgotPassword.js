@@ -40,11 +40,11 @@ export default function ForgotPassword() {
             </button>
         </form>
         <div>
-          <Link to="/login">Login</Link>
+          <Link to="/react-stock-game/login">Login</Link>
         </div>
 
         <div>
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account? <Link to="/react-stock-game/signup">Sign Up</Link>
         </div>
       </div>
     </div>

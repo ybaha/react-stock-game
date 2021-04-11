@@ -21,8 +21,8 @@ const Router = () => {
   const PrivateRoutes = () => {
     return (
       <Switch>
-        <PrivateRoute path="/" component={App} />
-        <PrivateRoute path="/update-profile" component={UpdateProfile} />
+        <PrivateRoute path="/react-stock-game/" component={App} />
+        <PrivateRoute path="/react-stock-game/update-profile" component={UpdateProfile} />
         {/* <Route render={() => <NoMatch text={"PrivateRoutes"} />} /> */}
       </Switch>
     )
@@ -32,10 +32,10 @@ const Router = () => {
   const AuthRoutes = () => {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route exact path="/react-stock-game/" component={Login} />
+        <Route path="/react-stock-game/login" component={Login} />
+        <Route path="/react-stock-game/signup" component={Signup} />
+        <Route path="/react-stock-game/forgot-password" component={ForgotPassword} />
         <Route render={() => <NoMatch text={"AuthRoutes"} />} />
       </Switch>
     )
