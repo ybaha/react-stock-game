@@ -52,7 +52,7 @@ const refreshStockData = () => {
   stocks.reverse()
   stocks.forEach((stock, index) => {
     if (index + 1 === stocks.length) {
-      setTimeout( async () => {
+      setTimeout(async () => {
         console.log(`${stock} updated`)
         await fetchStockData(stock)
         isFetching = false
@@ -72,12 +72,16 @@ const refreshStockData = () => {
 
 const getAllStockNames = (folder) => {
   let stcks = []
-  fs.readdirSync(folder).forEach(file => {
-    let fileName
-    fileName = file.slice(0, -5)
-    stcks.push(fileName)
-    //console.log(fileName)
-  })
+  try {
+    fs.readdirSync(folder).forEach(file => {
+      let fileName
+      fileName = file.slice(0, -5)
+      stcks.push(fileName)
+      //console.log(fileName)
+    })
+  } catch (e) {
+    console.log(e);
+  }
 
   //fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(stcks))
   return stcks
@@ -102,7 +106,7 @@ const appendNewStocks = (array) => {
 
   let lastStocks = getAllStockNames("./stocks")
 
-  if(lastStocks.length > 0) fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(lastStocks));
+  if (lastStocks.length > 0) fs.writeFileSync(path.resolve(__dirname + '/info/info.json'), JSON.stringify(lastStocks));
 
   setRoutes()
 
