@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
-import StockSymbolContext from '../contexts/StockSymbolContext'
+import { StockSymbolContext, AllStockPricesContext } from '../contexts/StockSymbolContext'
 
 
 export default function Leftbar() {
   const [stockNames, setStockNames] = useState([])
-  const { setStockSymbol } = useContext(StockSymbolContext);
 
+  const { setAllStockPrices } = useContext(AllStockPricesContext)
+  const { stockSymbol, setStockSymbol } = useContext(StockSymbolContext);
 
   const ListItems = (props) => {
     return (
@@ -13,32 +14,55 @@ export default function Leftbar() {
     )
   }
 
+  const fetchStockNames = async () => {
+    fetch(`http://127.0.0.1:5000`)
+      .then(
+        (response) => {
+          return response.json();
+        }
+      )
+      .then(
+        (data) => {
+          setStockNames(data)
+        }
+      )
+  }
+
+  const fetchStock = async () => {
+    if (stockSymbol) {
+      let res = await fetch(`http://127.0.0.1:5000/${stockSymbol}`)
+      let data = await res.json()
+      let keys = Object.keys(data['Time Series (Daily)']);
+      let last = keys[0];
+      let price = Number(data['Time Series (Daily)'][last]['1. open'])
+      return price
+    }
+  }
+
+  const fetchAllStockPrices = async () => {
+    let rawPrices = await fetch('http://127.0.0.1:5000/prices')
+    let prices = await rawPrices.json()
+    setAllStockPrices(prices)
+  }
 
   useEffect(() => {
-    const fetchStockNames = () => {
-
-      fetch(`http://127.0.0.1:5000`)
-        .then(
-          (response) => {
-            return response.json();
-          }
-        )
-        .then(
-          (data) => {
-            console.log(data)
-            setStockNames(data)
-          }
-        )
-    }
     fetchStockNames()
+    fetchStock()
+  }, [stockSymbol])
+
+  useEffect(() => {
+    fetchAllStockPrices()
   }, [])
 
 
+  const SSP = async (e) => {
+    setStockSymbol(e)
+  }
 
   const displayListItems = () => {
     let finalStockNames = []
     finalStockNames = stockNames.map((e, i) => {
-      return <ListItems key={i} value={e} onClick={() => {setStockSymbol(e)}} />
+      return <ListItems key={i} value={e} onClick={() => { SSP(e) }} />
     })
     return finalStockNames
   }

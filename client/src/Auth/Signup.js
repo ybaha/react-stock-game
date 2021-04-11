@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import { db } from "../firebase"
 
 export default function Signup() {
   const emailRef = useRef()
@@ -31,17 +30,6 @@ export default function Signup() {
     }
   }
 
-  async function writeUserData(email) {
-    let userIdIndex = email.indexOf("@")
-    let userId = email.substr(0,userIdIndex)
-    db.ref('users/' + userId).set({
-      username: userId,
-      email: email,
-      balance: 1000,
-      ownedStocks: {}
-    })
-    console.log("balance yazidli");
-  }
 
   return (
     <>

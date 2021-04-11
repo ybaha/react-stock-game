@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Plot from 'react-plotly.js'
 import { Link } from 'react-router-dom'
-import StockSymbolContext from '../contexts/StockSymbolContext'
+import { StockSymbolContext, AllStockPricesContext } from '../contexts/StockSymbolContext'
 
 
 export default function Chart() {
   const [xData, setxData] = useState([])
   const [yData, setyData] = useState([])
-  const { stockSymbol } = useContext(StockSymbolContext);
 
+  const { stockSymbol } = useContext(StockSymbolContext)
+  const { allStockPrices } = React.useContext(AllStockPricesContext)
 
-  useEffect(() => {
-    const fetchStock = () => {
+  const fetchStock = () => {
+    if (stockSymbol) {
       let stockChartXValues = [];
       let stockChartYValues = [];
-  
+
       fetch(`http://127.0.0.1:5000/${stockSymbol}`)
         .then(
           function (response) {
@@ -23,7 +24,6 @@ export default function Chart() {
         )
         .then(
           function (data) {
-              
             for (var key in data['Time Series (Daily)']) {
               stockChartXValues.push(key);
               stockChartYValues.push(data['Time Series (Daily)'][key]['1. open']);
@@ -33,28 +33,42 @@ export default function Chart() {
           }
         )
     }
+  }
+
+  useEffect(() => {
     fetchStock()
   }, [stockSymbol])
 
+  const ChartTemplate = (stockSymbol, stockPrice) => {
+    return (
+      <div>
+        <h1>{stockSymbol + " "}Stock Market</h1>
+        <h2>Price: {stockPrice}</h2>
+        <Plot
+          data={[
+            {
+              x: xData,
+              y: yData,
+              type: 'scatter',
+              mode: 'lines+markers',
+              marker: { color: 'blue' },
+            }
+          ]}
+          layout={{ width: 720, height: 440 }} //title: ...
+        />
+        <p><Link to="/buy">Buy</Link></p>
+      </div>
+    )
+  }
 
   return (
-    <div>
-      <h1>{stockSymbol + " "}Stock Market</h1>
-      <Plot
-        data={[
-          {
-            x: xData,
-            y: yData,
-            type: 'scatter',
-            mode: 'lines+markers',
-            marker: { color: 'blue' },
-          }
-        ]}
-        layout={{ width: 720, height: 440 }} //title: ...
-      />
-
-      <p><Link to="/buy">Buy</Link></p>
-      {}
-    </div>
+    <>
+      {
+        stockSymbol !== false ?
+          ChartTemplate(stockSymbol, allStockPrices[stockSymbol])
+          :
+          <div>Choose stock from the list</div>
+      }
+    </>
   )
 }

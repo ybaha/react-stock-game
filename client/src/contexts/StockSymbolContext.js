@@ -2,9 +2,18 @@ import React from 'react'
 
 
 const StockSymbolContext = React.createContext({
-  stockSymbol: 'FB',
-  setStockSymbol: () => { }
+  stockSymbol: false,
+  setStockSymbol: () => {}
+})
+
+const AllStockPricesContext = React.createContext({
+  allPrices: {},
+  setAllStockPrices: () => {}
 })
 
 
-export default StockSymbolContext
+
+export {
+  StockSymbolContext,
+  AllStockPricesContext
+}

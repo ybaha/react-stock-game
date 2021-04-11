@@ -16,6 +16,8 @@ const API_KEY2 = 'VKJ2JYJCM1XKCA1G'
 app.use(express.static("stocks"))
 app.use(cors())
 
+let isFetching = true
+
 
 const setRoutes = () => {
   let slug = JSON.parse(fs.readFileSync('./info/info.json', 'utf8'))
@@ -30,10 +32,7 @@ const setRoutes = () => {
   refreshStockData()
 }
 
-
-
-
-const fetchStockData = (slug) => {
+const fetchStockData = async (slug) => {
   fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${slug}&outputsize=compact&apikey=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
@@ -52,15 +51,23 @@ const refreshStockData = () => {
   let stocks = JSON.parse(fs.readFileSync('./info/info.json', 'utf8'))
   stocks.reverse()
   stocks.forEach((stock, index) => {
-    setTimeout(() => {
-      console.log(`${stock} updated`)
-      fetchStockData(stock)
-    }, 14000 * index)
+    if (index + 1 === stocks.length) {
+      setTimeout( async () => {
+        console.log(`${stock} updated`)
+        await fetchStockData(stock)
+        isFetching = false
+        console.log("isFetching: ", isFetching);
+      }, 14000 * index)
+    }
+    else {
+      setTimeout(() => {
+        console.log(`${stock} updated`)
+        fetchStockData(stock)
+      }, 14000 * index)
+    }
   })
 
 }
-
-
 
 
 const getAllStockNames = (folder) => {
@@ -107,14 +114,59 @@ let appendArray = []
 appendNewStocks(appendArray)
 
 
+const getTodaysStockPrices = async () => {
+  let date = new Date()
+  var day = date.getDay()
+  var isWeekend = (day === 6) || (day === 0)   // 6 = Saturday, 0 = Sunday
 
+  let stockNames = getAllStockNames("./stocks")
+  let stockPrices = {}
+  stockNames.forEach(e => {
+    let raw = fs.readFileSync(__dirname + '/stocks/' + e + '.json')
+    let data = JSON.parse(raw)
+    let keys = Object.keys(data['Time Series (Daily)']);
+    let last = keys[0];
+    let today = date.toJSON().slice(0, 10)
+
+    let price
+    if (today === last) {
+      price = Number(data['Time Series (Daily)'][last]['1. open'])
+    }
+    else if (today[6] === last[6] && isWeekend) { // api tam 00.00'da vermiyorsa sıkıntı
+      if (today.slice(today.length - 2) - last.slice(last.length - 2) <= 2 && day === 0) {
+        price = Number(data['Time Series (Daily)'][last]['1. open'])
+      }
+      else {
+        console.log("wait for server to fetch latest date for stock " + e)
+        console.log("isFetching: " + isFetching);
+        price = false
+      }
+    }
+    else {
+      console.log("wait for server to fetch latest date for stock " + e)
+      console.log("isFetching: " + isFetching);
+      price = false
+    }
+    stockPrices[e] = price
+  })
+
+  return stockPrices
+}
 
 
 app.get("/", (req, res, next) => {
   res.json(getAllStockNames('stocks'));
 })
 
+app.get("/prices", async (req, res) => {
+  let r = await getTodaysStockPrices()
+  res.json(r)
+})
+
 
 app.listen(PORT, () => {
   console.log(`Server running on: ${PORT}`);
 })
+
+
+// 5000/'de isimler + anlık stok fiyatlarını ver

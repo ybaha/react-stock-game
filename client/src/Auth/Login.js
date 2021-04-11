@@ -21,9 +21,7 @@ export default function Login() {
     } catch {
       setError("Failed to log in")
       setLoading(false)
-
     }
-
   }
 
   return (

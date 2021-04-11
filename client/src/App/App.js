@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Route, Switch, } from 'react-router-dom'
-import StockSymbolContext from '../contexts/StockSymbolContext'
+import { StockSymbolContext, AllStockPricesContext } from '../contexts/StockSymbolContext'
 import Chart from './Chart'
 import TransactionsUI from './TransactionsUI'
 import Leftbar from './Leftbar'
@@ -8,19 +8,28 @@ import Rightbar from './Rightbar'
 import './App.css'
 
 function App() {
+  const [stockSymbol, setStockSymbol] = useState(false);
+  const [allStockPrices, setAllStockPrices] = useState({});
 
-  const [stockSymbol, setStockSymbol] = useState("FB");
-  const value = { stockSymbol, setStockSymbol };
+  let value = { stockSymbol, setStockSymbol };
+  let value2 = { allStockPrices, setAllStockPrices };
 
+  console.log(stockSymbol);
 
   return (
     <div className="App">
       <StockSymbolContext.Provider value={value}>
-        <Leftbar></Leftbar>
-        <Switch>
-          <Route exact path="/" component={Chart}></Route>
-          <Route path="/buy" render={() => {return <TransactionsUI stockName={stockSymbol} />}}></Route>
-        </Switch>
+        <AllStockPricesContext.Provider value={value2}>
+          <Leftbar />
+          <Switch>
+            <Route exact path="/" component={Chart} />
+            <Route path="/buy"
+              render={() => {
+                return <TransactionsUI stockName={stockSymbol} stockPrice={allStockPrices[stockSymbol]} />
+              }}
+            />
+          </Switch>
+        </AllStockPricesContext.Provider>
       </StockSymbolContext.Provider>
       <Rightbar></Rightbar>
     </div>

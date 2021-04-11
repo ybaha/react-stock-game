@@ -23,8 +23,6 @@ export default function Rightbar() {
     }
   }
 
-
-
   useEffect(() => {
     let userIdIndex = currentUserMailRef.current.indexOf("@")
     let userIdRef = currentUserMailRef.current.substr(0, userIdIndex)
@@ -35,6 +33,7 @@ export default function Rightbar() {
   useEffect(() => {
     let balanceRef = db.ref('users/' + userId + '/balance');
     balanceRef.on('value', (snapshot) => {
+      console.log(snapshot.val());
       setBalance(snapshot.val())
     })
   }, [userId])
@@ -55,7 +54,7 @@ export default function Rightbar() {
           <button onClick={handleLogout}>
             Log Out
           </button>
-          <p>Balance: {balance}</p>
+          <p>Balance: {parseInt(balance)}</p>
         </li>
       </div>
     </div>

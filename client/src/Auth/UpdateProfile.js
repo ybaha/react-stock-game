@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 
@@ -39,6 +39,10 @@ export default function UpdateProfile() {
         history.push("/")
       })
   }
+
+  useEffect(() => {
+    console.log(emailRef.current.value)
+  }, [])
 
   return (
     <>
