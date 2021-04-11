@@ -22,8 +22,8 @@ function App() {
         <AllStockPricesContext.Provider value={value2}>
           <Leftbar />
           <Switch>
-            <Route exact path="/" component={Chart} />
-            <Route path="/buy"
+            <Route exact path="/react-stock-game/" component={Chart} />
+            <Route path="/react-stock-game/buy"
               render={() => {
                 return <TransactionsUI stockName={stockSymbol} stockPrice={allStockPrices[stockSymbol]} />
               }}
